@@ -1,9 +1,55 @@
+"use client";
+
 import React from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation"
 import Logo from "./Logo";
 import Button from "./Button";
 
 const Navbar = ({ toggle }: { toggle: () => void }) => {
+
+  const pathname = usePathname()
+
+  const NavLinks = [
+    {
+      id: 1,
+      name: "Home",
+      href: "/",
+      isActive: () => {
+        return pathname === "/"
+      }
+    }, {
+      id: 2,
+      name: "Careers",
+      href: "/Careers",
+      isActive: () => {
+        return pathname === "/Careers"
+      }
+    }, {
+      id: 3,
+      name: "Apply",
+      href: "/Apply",
+      isActive: () => {
+        return pathname === "/Apply"
+      }
+    }, {
+      id: 3,
+      name: "Courses",
+      href: "/Courses",
+      isActive: () => {
+        return pathname === "/Courses"
+      }
+    }, {
+      id: 4,
+      name: "Contacts",
+      href: "/contacts",
+      isActive: () => {
+        return pathname === "/contacts"
+      }
+    }
+  
+  ]
+
   return (
     <>
       <div className="w-full h-20 bg-[#131313] border-b-2 border-b-red-600">
@@ -28,21 +74,15 @@ const Navbar = ({ toggle }: { toggle: () => void }) => {
               </svg>
             </button>
             <ul className="hidden md:flex gap-x-6 text-white ">
-              <li>
-                <Link href="/about">
-                  <p>About Us</p>
-                </Link>
-              </li>
-              <li>
-                <Link href="/services">
-                  <p>Services</p>
-                </Link>
-              </li>
-              <li>
-                <Link href="/contacts">
-                  <p>Contacts</p>
-                </Link>
-              </li>
+              {
+                NavLinks.map(({id, name, href, isActive}) => (
+                  <li key={id}>
+                    <Link className={(isActive() ? "font-bold" : "") + "hover:bg-black hover:text-red-600"} href={href}>
+                      {name}
+                    </Link>
+                  </li>
+                ))
+              }
             </ul>
             <div className="hidden md:block">
               <Button />
