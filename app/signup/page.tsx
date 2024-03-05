@@ -1,7 +1,5 @@
-import React from "react";
-
-const apply = () => {
-  return <div>apply</div>;
-};
-
-export default apply;
+export default function SignUp() {
+    return <>
+        <h1> Dummer</h1>
+    </>
+}
