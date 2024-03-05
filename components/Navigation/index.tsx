@@ -1,20 +1,143 @@
-"use client";
-import { useState } from "react";
-import Navbar from "@/components/Navigation/Navbar/index";
-import Sidebar from "@/components/Navigation/Sidebar/index";
+'use client';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCoffeeBean } from '@fortawesome/pro-solid-svg-icons';
+import { faBarsStaggered } from '@fortawesome/pro-regular-svg-icons';
+import { faGithub } from '@fortawesome/free-brands-svg-icons';
 
-const Navigation = () => {
-  // toggle sidebar
-  const [isOpen, setIsOpen] = useState(false);
-  const toggle = () => {
-    setIsOpen(!isOpen);
-  };
-  return (
-    <>
-      <Sidebar isOpen={isOpen} toggle={toggle} />
-      <Navbar toggle={toggle} />
-    </>
-  );
-};
+import Image from "next/image"
 
-export default Navigation;
+import { usePathname } from 'next/navigation';
+import {
+    Sheet,
+    SheetClose,
+    SheetContent,
+    SheetFooter,
+    SheetHeader,
+    SheetTitle,
+    SheetTrigger,
+  } from "@/components/ui/sheet"
+import { Separator } from "@/components/ui/separator";
+
+import { Button } from "@/components/ui/button";
+import Link from 'next/link';
+
+
+export default function NavigationBar() {
+
+    const pathname = usePathname();
+    var navItems = [
+        {
+            name: "Home",
+            href: "/",
+            isActive: () => {
+                return pathname === '/'
+            }
+        }, {
+            name: 'Careers',
+            href: '/careers',
+            isActive: () => {
+                return pathname === '/careers'
+            }
+        }, {
+            name: 'Apply',
+            href: '/apply',
+            isActive: () => {
+                return pathname === '/apply'
+            }
+        }, {
+            name: 'Courses',
+            href: '/courses',
+            isActive: () => {
+                return pathname === '/courses'
+            }
+        }, {
+            name: 'Contact',
+            href: '/contact',
+            isActive: ()=> {
+                return pathname === '/contact'
+            }
+        }
+
+    ]
+
+    const LargeDisplayNavbarItems = ({ index, item }: 
+        {index: number, item: { name: string; href: string; isActive: () => boolean; }}) => {
+        return (
+            <Link key={index} href={item.href} className={
+                (item.isActive() ? 'font-black' : '') + ' px-3 py-2 mx-2 hover:font-black hover:dark:bg-[#dfe9e9] hover:bg-[#191919] hover:text-[#dfe9e9] rounded-full hover:dark:text-[#191919] transition-all duration-200 ease-in-out' 
+            }>{item.name}</Link>
+        )
+    }
+
+    const MobileNavbarItems = ({ index, item }: 
+        {index: number, item: { name: string; href: string; isActive: () => boolean; }}) => {
+        return (
+            <li key={index*2} className="px-3 py-2 my-2 mx-2 hover:font-black hover:dark:bg-[#dfe9e9] hover:bg-[#191919] hover:text-[#dfe9e9] rounded-full hover:dark:text-[#191919] transition-all duration-200 ease-in-out">
+                <a href={item.href} className={
+                    (item.isActive() ? 'font-bold' : '') + '' 
+                }>{item.name}</a>
+            </li>
+        )
+    }
+
+    return (
+        <nav className="px-12 relative pt-2 pb-4 w-full overflow-hidden z-10">
+            <div className="grid mt-3 grid-cols-2 lg:grid-cols-6">
+                <div className="inline-flex mt-3">
+                    <Link href='/' className=" inline-flex font-black" > <FontAwesomeIcon icon={faCoffeeBean} className="mr-2 text-2xl"/> Hot Beans</Link>
+                </div>
+                <div className="hidden text-center mt-1 col-span-4 lg:visible lg:flex justify-evenly">
+                    {
+                        navItems.map((item, index) => (
+                            <LargeDisplayNavbarItems index={index} item={item} />
+                        ))
+                    }
+                </div>
+                <div className="lg:hidden inline-flex justify-end">
+                <Sheet>
+                    <SheetTrigger><FontAwesomeIcon icon={faBarsStaggered} className="text-2xl" /></SheetTrigger>
+                    <SheetContent className="w-[400px] sm:w-[540px]">
+                        <SheetHeader>
+                            <SheetTitle><a href="/">
+                                <FontAwesomeIcon icon={faCoffeeBean} /> Hot Beans
+                            </a></SheetTitle>
+                        </SheetHeader>
+                        <Separator className="dark:bg-[#dfe9e9] bg-[#191919] my-2"/>
+                        <ul className="mt-2">
+                            {navItems.map((item, index) => (
+                                <MobileNavbarItems index={index} item={item} />
+                            ))}  
+                            
+                        </ul>
+                        <Separator className="dark:bg-[#dfe9e9] bg[#191919] mb-2"/>
+
+                        <div className="grid grid-cols-2 gap-2">
+                            <Link href="https://github.com/ArcheryLuna/unit-6-aim-c.git">
+                                <Button className="rounded-full w-full text-[#dfe9e9] font-bold dark:text-[#191919]"><FontAwesomeIcon icon={faGithub} className="mr-2"/> Frontend</Button>
+                            </Link>
+                            <Link href="https://github.com/ArcheryLuna/cwc-unit6-backend.git">
+                                <Button variant={"outline"} className="rounded-full w-full border-[#191919] dark:border-[#dfe9e9]"><FontAwesomeIcon icon={faGithub} className="mr-2" /> Backend</Button>
+                            </Link>
+                        </div>
+                        
+                    </SheetContent>
+                </Sheet>
+                </div>
+                <div className="hidden lg:inline-flex justify-end">
+                    <div className="mt-1 grid grid-cols-2 gap-2">
+                        <Link href="/login">
+                        <Button >Login</Button>
+                        </Link>  
+                        <Link href="/signup"> <Button  variant="outline">Sign Up</Button></Link>
+                        
+                    </div>
+                </div>
+            </div>
+            <div className="absolute  bottom-0 bg-gradient-to-r from-transparent via-red-500 to-transparent h-[2px] w-full blur-sm" />
+            <div className="absolute  bottom-0 bg-gradient-to-r from-transparent via-red-500 to-transparent h-px w-full" />
+            <div className="hidden lg:absolute  bottom-0 bg-gradient-to-r from-transparent via-rose-500 to-transparent h-[5px] w-1/2 blur-sm" />
+            <div className="hidden lg:absolute  bottom-0 bg-gradient-to-r from-transparent via-rose-500 to-transparent h-px w-1/2" />
+
+        </nav>
+    )
+}
