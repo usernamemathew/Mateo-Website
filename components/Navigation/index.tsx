@@ -4,8 +4,6 @@ import { faCoffeeBean } from '@fortawesome/pro-solid-svg-icons';
 import { faBarsStaggered } from '@fortawesome/pro-regular-svg-icons';
 import { faGithub } from '@fortawesome/free-brands-svg-icons';
 
-import Image from "next/image"
-
 import { usePathname } from 'next/navigation';
 import {
     Sheet,
@@ -21,7 +19,6 @@ import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import Link from 'next/link';
 
-
 export default function NavigationBar() {
 
     const pathname = usePathname();
@@ -34,25 +31,25 @@ export default function NavigationBar() {
             }
         }, {
             name: 'Careers',
-            href: '/careers',
+            href: '#careers',
             isActive: () => {
                 return pathname === '/careers'
             }
         }, {
             name: 'Apply',
-            href: '/apply',
+            href: '#apply',
             isActive: () => {
                 return pathname === '/apply'
             }
         }, {
             name: 'Courses',
-            href: '/courses',
+            href: '#courses',
             isActive: () => {
                 return pathname === '/courses'
             }
         }, {
             name: 'Contact',
-            href: '/contact',
+            href: '#contact',
             isActive: ()=> {
                 return pathname === '/contact'
             }
@@ -60,19 +57,19 @@ export default function NavigationBar() {
 
     ]
 
-    const LargeDisplayNavbarItems = ({ index, item }: 
-        {index: number, item: { name: string; href: string; isActive: () => boolean; }}) => {
+    const LargeDisplayNavbarItems = ({ key, item }: 
+        {key: number, item: { name: string; href: string; isActive: () => boolean; }}) => {
         return (
-            <Link key={index} href={item.href} className={
+            <Link key={key} href={item.href} className={
                 (item.isActive() ? 'font-black' : '') + ' px-3 py-2 mx-2 hover:font-black hover:dark:bg-[#dfe9e9] hover:bg-[#191919] hover:text-[#dfe9e9] rounded-full hover:dark:text-[#191919] transition-all duration-200 ease-in-out' 
             }>{item.name}</Link>
         )
     }
 
-    const MobileNavbarItems = ({ index, item }: 
-        {index: number, item: { name: string; href: string; isActive: () => boolean; }}) => {
+    const MobileNavbarItems = ({ key, item }: 
+        {key: number, item: { name: string; href: string; isActive: () => boolean; }}) => {
         return (
-            <li key={index*2} className="px-3 py-2 my-2 mx-2 hover:font-black hover:dark:bg-[#dfe9e9] hover:bg-[#191919] hover:text-[#dfe9e9] rounded-full hover:dark:text-[#191919] transition-all duration-200 ease-in-out">
+            <li key={key*2} className="px-3 py-2 my-2 mx-2 hover:font-black hover:dark:bg-[#dfe9e9] hover:bg-[#191919] hover:text-[#dfe9e9] rounded-full hover:dark:text-[#191919] transition-all duration-200 ease-in-out">
                 <a href={item.href} className={
                     (item.isActive() ? 'font-bold' : '') + '' 
                 }>{item.name}</a>
@@ -89,7 +86,7 @@ export default function NavigationBar() {
                 <div className="hidden text-center mt-1 col-span-4 lg:visible lg:flex justify-evenly">
                     {
                         navItems.map((item, index) => (
-                            <LargeDisplayNavbarItems index={index} item={item} />
+                            <LargeDisplayNavbarItems key={index} item={item} />
                         ))
                     }
                 </div>
@@ -105,7 +102,7 @@ export default function NavigationBar() {
                         <Separator className="dark:bg-[#dfe9e9] bg-[#191919] my-2"/>
                         <ul className="mt-2">
                             {navItems.map((item, index) => (
-                                <MobileNavbarItems index={index} item={item} />
+                                <MobileNavbarItems key={index} item={item} />
                             ))}  
                             
                         </ul>
@@ -124,13 +121,6 @@ export default function NavigationBar() {
                 </Sheet>
                 </div>
                 <div className="hidden lg:inline-flex justify-end">
-                    <div className="mt-1 grid grid-cols-2 gap-2">
-                        <Link href="/login">
-                        <Button >Login</Button>
-                        </Link>  
-                        <Link href="/signup"> <Button  variant="outline">Sign Up</Button></Link>
-                        
-                    </div>
                 </div>
             </div>
             <div className="absolute  bottom-0 bg-gradient-to-r from-transparent via-red-500 to-transparent h-[2px] w-full blur-sm" />

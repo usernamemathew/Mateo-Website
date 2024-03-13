@@ -1,9 +1,9 @@
-import LandingBackground from "@/components/HomeComponents/LandingHome"
+import Landing from "@/components/landing"
 
 export default function Home() {
   return (
     <>
-      <LandingBackground />
+        <Landing />
     </>
   )
 }
